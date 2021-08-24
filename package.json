@@ -33,6 +33,7 @@
     "json-parse",
     "json-stringify",
     "drop-in replacement",
+    "prototype-pollution",
     "supercharge",
     "superchargejs"
   ],
