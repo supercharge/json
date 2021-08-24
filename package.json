@@ -1,0 +1,55 @@
+{
+  "name": "@supercharge/json",
+  "description": "Secure drop-in replacement for the global `JSON` object",
+  "version": "0.0.0",
+  "author": "Marcus Pöhls <marcus@superchargejs.com>",
+  "bugs": {
+    "url": "https://github.com/supercharge/json/issues"
+  },
+  "devDependencies": {
+    "@supercharge/tsconfig": "~3.0.0",
+    "@types/jest": "~27.0.1",
+    "@types/node": "~16.7.1",
+    "@typescript-eslint/eslint-plugin": "~4.29.3",
+    "eslint": "~7.32.0",
+    "eslint-config-standard-with-typescript": "~20.0.0",
+    "eslint-plugin-import": "~2.24.1",
+    "eslint-plugin-node": "~11.1.0",
+    "eslint-plugin-promise": "~5.1.0",
+    "eslint-plugin-standard": "~4.1.0",
+    "jest": "~27.0.6",
+    "typescript": "~4.3.5"
+  },
+  "main": "dist",
+  "types": "dist",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/supercharge/json",
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "json",
+    "json-parse",
+    "json-stringify",
+    "drop-in replacement",
+    "supercharge",
+    "superchargejs"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supercharge/json.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .js,.ts",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "npm run build && npm run lint && npm run test:run",
+    "test:run": "jest"
+  }
+}
