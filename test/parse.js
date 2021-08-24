@@ -1,12 +1,13 @@
 'use strict'
 
-const JSON = require('../dist')
+const Json = require('../dist')
 const { parse } = require('../dist')
 
 describe('JSON.parse', () => {
   it('ensure parse is a function', () => {
+    expect(Json.parse === parse).toBe(true)
     expect(typeof parse === 'function').toBe(true)
-    expect(typeof JSON.parse === 'function').toBe(true)
+    expect(typeof Json.parse === 'function').toBe(true)
   })
 
   it('parse an object string', () => {
@@ -28,6 +29,14 @@ describe('JSON.parse', () => {
 
   it('parse string', () => {
     expect(parse('"supercharge"')).toBe('supercharge')
+  })
+
+  it('parse buffer', () => {
+    expect(
+      parse(Buffer.from('"Supercharge"'))
+    ).toBe(
+      JSON.parse(Buffer.from('"Supercharge"'))
+    )
   })
 
   it('parse object with reviver', () => {
