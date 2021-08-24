@@ -5,16 +5,15 @@
   <br/>
   <br/>
   <p>
-    <h3>Goodies</h3>
+    <h3>JSON</h3>
   </p>
   <p>
-    Helper and utility functions for Node.js.
+    Secure drop-in replacement for the global `JSON` object with prototype pollution protection
   </p>
   <br/>
   <p>
     <a href="#installation"><strong>Installation</strong></a> ·
-    <a href="#docs"><strong>Docs</strong></a> ·
-    <a href="#api"><strong>API</strong></a>
+    <a href="#usage"><strong>Usage</strong></a>
   </p>
   <br/>
   <br/>
@@ -30,7 +29,7 @@
 ---
 
 ## Introduction
-The `@supercharge/json` package provides a handful of useful helper functions for Node.js and JavaScript, like an async `tap` function.
+The `@supercharge/json` package is a drop-in replacement for the global `JSON` object. It protects JSON parsing against protoype pollution attacks.
 
 
 ## Installation
@@ -40,44 +39,26 @@ npm i @supercharge/json
 ```
 
 
-## Docs
-Find all the [details for `@supercharge/json` in the extensive Supercharge docs](https://superchargejs.com/docs/goodies).
-
-
-## API
-Using `@supercharge/json` is pretty straightforward. The package exports a handful of methods that you can reach for when requiring the package:
-
-
-#### tap(value, callback)
-Returns the `value` after running the `callback`. The callback receives the value as an argument.
+## Usage
+Using `@supercharge/json` is pretty straightforward. Use it the same way as you would use the `JSON` object:
 
 ```js
-const { tap } = require('@supercharge/json')
+const JSON = require('@supercharge/json')
 
-return tap(await User.find(1), async (user) => {
-  await user.subscribeToNewsletter()
-})
+const user = JSON.parse('{"name":"Supercharge"}')
+// { name: 'Supercharge' }
 
-// returns the user with ID 1
-```
+const user = JSON.parse('{"name":"Supercharge", "__proto__": { "x": 1 }, "constructor": {"prototype": {"bar": "baz"} } }')
+// { name: 'Supercharge' }
 
 
-#### upon(value, callback)
-Returns the result of the callback. The callback receives the value as an argument.
-
-```js
-const { upon } = require('@supercharge/json')
-
-return upon(await User.find(1), async (user) => {
-  return user.email
-})
-
-// user@email.com
+const json = JSON.stringify({ name: 'Supercharge' })
+// '{"name":"Supercharge"}'
 ```
 
 
 ## Contributing
-Do you miss a goodie function? We very much appreciate your contribution! Please send in a pull request 😊
+Do you miss a function? We very much appreciate your contribution! Please send in a pull request 😊
 
 1.  Create a fork
 2.  Create your feature branch: `git checkout -b my-feature`
