@@ -14,10 +14,10 @@ export function parse (input: string, reviver?: (this: any, key: string, value: 
     case input === 'null':
       return null
 
-    case !JsonSignatureRx.test(input):
+    case !JsonSignatureRegEx.test(input):
       return input
 
-    case isSuspiciuous(input):
+    case isSuspicious(input):
       return JSON.parse(input, (key, value) => clean(key, value, reviver))
 
     default:
@@ -32,8 +32,8 @@ export function parse (input: string, reviver?: (this: any, key: string, value: 
  *
  * @returns {Boolean}
  */
-function isSuspiciuous (value: string): boolean {
-  return suspectProtoRx.test(value) || suspectConstructorRx.test(value)
+function isSuspicious (value: string): boolean {
+  return suspiciousProtoRegEx.test(value) || suspiciousConstructorRegEx.test(value)
 }
 
 /**
@@ -42,7 +42,8 @@ function isSuspiciuous (value: string): boolean {
  * @param {String} key
  * @param {*} value
  * @param {Function} reviver
- * @returns
+ *
+ * @returns {*}
  */
 function clean (key: string, value: any, reviver?: (this: any, key: string, value: any) => any): any {
   if (key === '__proto__' || key === 'constructor') {
@@ -52,10 +53,10 @@ function clean (key: string, value: any, reviver?: (this: any, key: string, valu
   return reviver ? reviver(key, value) : value
 }
 
-const JsonSignatureRx = /^["{[]|^-?[0-9][0-9.]*$/
+const JsonSignatureRegEx = /^["{[]|^-?[0-9][0-9.]*$/
 
 // https://github.com/fastify/secure-json-parse
-const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
+const suspiciousProtoRegEx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
 
 // https://github.com/hapijs/bourne
-const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/
+const suspiciousConstructorRegEx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/
