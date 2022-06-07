@@ -2,36 +2,38 @@
 
 const Json = require('../dist')
 const { parse } = require('../dist')
+const { expect } = require('expect')
+const { test } = require('@japa/runner')
 
-describe('JSON.parse', () => {
-  it('ensure parse is a function', () => {
+test.group('JSON.parse', () => {
+  test('ensure parse is a function', () => {
     expect(Json.parse === parse).toBe(true)
     expect(typeof parse === 'function').toBe(true)
     expect(typeof Json.parse === 'function').toBe(true)
   })
 
-  it('parse an object string', () => {
+  test('parse an object string', () => {
     expect(parse('{"name":"Supercharge"}')).toEqual({ name: 'Supercharge' })
   })
 
-  it('parse null', () => {
+  test('parse null', () => {
     expect(parse('null')).toEqual(null)
   })
 
-  it('parse undefined', () => {
+  test('parse undefined', () => {
     expect(parse()).toEqual(undefined)
     expect(parse(undefined)).toEqual(undefined)
   })
 
-  it('parse number', () => {
+  test('parse number', () => {
     expect(parse('0')).toBe(0)
   })
 
-  it('parse string', () => {
+  test('parse string', () => {
     expect(parse('"supercharge"')).toBe('supercharge')
   })
 
-  it('parse buffer', () => {
+  test('parse buffer', () => {
     expect(
       parse(Buffer.from('"Supercharge"'))
     ).toBe(
@@ -39,7 +41,7 @@ describe('JSON.parse', () => {
     )
   })
 
-  it('parse object with reviver', () => {
+  test('parse object with reviver', () => {
     const reviver = (_, value) => {
       return typeof value === 'number'
         ? value + 1
@@ -49,7 +51,7 @@ describe('JSON.parse', () => {
     expect(parse('{"a": 1, "b": 2}', reviver)).toEqual({ a: 2, b: 3 })
   })
 
-  it('sanitizes object with reviver', () => {
+  test('sanitizes object with reviver', () => {
     const reviver = (_, value) => {
       return typeof value === 'number'
         ? value + 1
@@ -61,11 +63,11 @@ describe('JSON.parse', () => {
     })
   })
 
-  it('sanitizes object', () => {
+  test('sanitizes object', () => {
     expect(parse('{ "a": 1, "b": 2, "__proto__": { "x": 7 } }')).toEqual({ a: 1, b: 2 })
   })
 
-  it('sanitizes nested object', () => {
+  test('sanitizes nested object', () => {
     const json =
       '{ "a": 1, "__proto__": { "x": 7 }, "c": { "d": "text", "__proto__": { "y": 8 }, "e": { "f": 3 } } }'
 
