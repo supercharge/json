@@ -9,7 +9,7 @@
  *
  * @returns {*}
  */
-export function parse<R = any> (input: string, reviver?: (this: any, key: string, value: any) => any): R {
+export function parse<R = any> (input: string, reviver?: (this: any, key: string, value: any) => any): R | null {
   switch (true) {
     case input === 'null':
       return null
