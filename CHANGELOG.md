@@ -1,10 +1,14 @@
 # Changelog
 
 
-## [2.0.0](https://github.com/supercharge/json/compare/v1.1.0...v2.0.0) - 2022-xx-xx
+## [2.0.0](https://github.com/supercharge/json/compare/v1.1.0...v2.0.0) - 2022-06-07
+
+### Added
+- support return type for `JSON.parse`
 
 ### Updated
 - bump deps
+- move from Jest to Japa for testing
 
 ### Breaking Changes
 - Require Node.js v14, drop support for Node.js v12
