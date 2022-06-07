@@ -9,13 +9,13 @@
  *
  * @returns {*}
  */
-export function parse (input: string, reviver?: (this: any, key: string, value: any) => any): any {
+export function parse<R = any> (input: string, reviver?: (this: any, key: string, value: any) => any): R {
   switch (true) {
     case input === 'null':
       return null
 
     case !JsonSignatureRegEx.test(input):
-      return input
+      return input as any
 
     case isSuspicious(input):
       return JSON.parse(input, (key, value) => clean(key, value, reviver))
